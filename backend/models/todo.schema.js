@@ -10,10 +10,12 @@ const TodoSchema = mongoose.Schema(
         priority:{
             type:String,
             default:"Low",
-            enum:["low","medium","high"],
+            enum:["Low","Medium","High"],
         },
         tasks:{
-            type:[String]
+            type:[String],
+            trim: true,
+            maxlength: [120, "title should not more than 120 characters"],
         },
     },
     {

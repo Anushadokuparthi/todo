@@ -6,8 +6,8 @@ exports.home = (req, res) => {
 };
 
 exports.createTodo = async (req, res) => {
-  try {
-    const { title, task, priority } = req.body;
+  try {    
+    const { title, tasks, priority } = req.body;
     // To check all the details
     if (!title) {
       throw new Error("Title is Required");
@@ -15,12 +15,29 @@ exports.createTodo = async (req, res) => {
     
     // Inserting into the Database.
     
-    const todo = await Todo.create({ title, task, priority });
+    const todo = await Todo.create({ title, tasks, priority });
     res.status(201).json({
       success: true,
       message: "Todo Created Successfully",
       todo,
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.createTasks = async (req, res) => {
+  try {
+    if(req.body.tasks.length > 0){
+      const todo = await Todo.findByIdAndUpdate(req.params.id, req.body);
+      res.status(201).json({
+        success: true,
+        message: "Task is Created Successfully",
+        tasks:req.body.tasks,
+      });
+    }else{
+      throw new Error("Task cannot be empty");
+    }   
   } catch (error) {
     console.log(error);
   }
