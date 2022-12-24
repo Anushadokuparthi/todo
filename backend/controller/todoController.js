@@ -1,7 +1,7 @@
 // LOGIC, BL
 const Todo = require("../models/todo.schema");
 
-exports.home = (req, res) => {
+exports.home = (_req, res) => {
   res.send("Hello  Alpha ");
 };
 
@@ -82,6 +82,22 @@ exports.deleteTodo = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Todo Deleted Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.searchTodos = async (req, res) => {
+  try {
+    const todos = await Todo.find();
+    res.status(200).json({
+      success: true,
+      todos,
     });
   } catch (error) {
     console.log(error);
